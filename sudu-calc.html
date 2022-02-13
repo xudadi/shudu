@@ -1,262 +1,82 @@
-<!--
-[数独克星]javascript实现;有兴趣的同学，git pull 可以进行研究，优化。
-作者: 路人庚
-QQ: 309581329
-在线示例地址:http://shudu.gwalker.cn
--->
 <script type="text/javascript">
-//功能性函数=======================================================================start
+    class Solution {
+        i = 0;
 
-//判断一个数组是否有重复的值(值为0的除外)
-function isRepeat(arr){
-    var hash = {};
-    for(var i in arr) {
-        if(hash[arr[i]])
-        return true;
-        if(arr[i]!=0){
-            hash[arr[i]] = true;
+        constructor() {
+            this.i = 10;
         }
-    }
-    return false;
-}
 
-//判断数组之和是否为非45
-function isAll(arr){
-    var sum = 0;
-    for(var i=0;i<9;i++){
-        sum += arr[i];
-    }
-    return sum==45 ? false : true;
-}
-
-//arr 待检测的组数
-//type=1只检是否有重复;type=2检测是否和为非45;type=3 是否有重复 和 非45 都检测
-//如果返回真则数独不成立
-function check(arr,type){
-    switch(type){
-        case 1:
-            return isRepeat(arr);
-        case 2:
-            return isAll(arr);
-        case 3:
-            return isAll(arr) || isRepeat(arr);
-    }
-}
-
-//行检测(有没有重复数据)
-//参数 arr数独二维数组
-//没有重复数据返回 true,有重复数据返回 false
-function rowsCheck(arr,type){
-    for(var i=0;i<9;i++){
-        if(check(arr[i],type)){
-            return false;
-        }
-    }
-    return true;
-}
-
-//列检测(有没有重复数据)
-//参数 arr数独二维数组
-//没有重复数据返回 true,有重复数据返回 false
-function colsCheck(arr,type){
-    var tmparr = [[],[],[],[],[],[],[],[],[]];
-    for(var i=0;i<9;i++){
-        for(var j=0;j<9;j++){
-            tmparr[i][j] = arr[j][i];
-        }
-        if(check(tmparr[i],type)){
-            return false;
-        }
-    }
-    return true;
-}
-
-//列检测(有没有重复数据)
-//参数 arr数独二维数组
-//没有重复数据返回 true,有重复数据返回 false
-function blockCheck(arr,type){
-    var tmparr = [[],[],[],[],[],[],[],[],[]];
-    for(var i=0;i<9;i++){
-        for(var j=0;j<9;j++){
-            var x = parseInt(i/3)*3;
-            var y = (i%3)*3;
-            x = x+parseInt(j/3);
-            y = y+j%3;
-            tmparr[i][j] = arr[x][y];
-        }
-        if(check(tmparr[i],type)){
-            return false;
-        }
-    }
-    return true;
-}
-
-// type=1 检测一个未完成的数独是否合法
-// type=3 检测一个完成的数独是否成立
-// 返回 true 合法 或 成立
-function allCheck(arr,type){
-    return rowsCheck(arr,type) && colsCheck(arr,type) && blockCheck(arr,type)
-}
-
-function printS(arr){
-    //console.log(arr[0][1]);
-    //return 0;
-    for(var i=0;i<9;i++){
-        console.log(arr[i]);
-    }
-    console.log('================================');
-}
-
-//找上一次的正确节点
-//INIT初始的数独(二维数据),S要计算的数独二维数组,xy为当前所处的错误节点坐标,v为坐标值
-function findBackNode(INIT,S,i,j){
-    var x =i;
-    var y =j;
-    if(x<0){
-        return {flag:0} //上级节点没有了，则说明此数组无解(抽象为回到迷宫入口外)
-    }
-    //console.log(x+'-'+y+'=');
-    if(INIT[x][y]){
-        //console.log(S[x][y]);
-        //printS(S);
-        x = j-1 < 0 ? i-1 : i;
-        y = j-1 < 0 ? 8 : j-1;
-        return findBackNode(INIT,S,x,y);
-    }else{
-        if(S[x][y]<9){
-            //console.log(S[x][y]);
-            //printS(S);
-            S[x][y] = S[x][y]+1;
-            if(allCheck(S,1)){
-                return {flag:1,arr:S,x:x,y:y}
-            }else{
-                return findBackNode(INIT,S,x,y);
-            }
-        }else{
-            //console.log(S[x][y]);
-            //printS(S);
-            S[x][y] = 0;
-            x = j-1 < 0 ? i-1 : i;
-            y = j-1 < 0 ? 8 : j-1;
-            return findBackNode(INIT,S,x,y);
-        } 
-    }
-
-}
-
-
-
-function core(S,x,y){            
-    //避免递归死,上线删除掉start
-    //console.log('%cno:'+max, 'color:red');
-    //if(max > 9999){
-    //    return {flag:2};//运行算太大，终
-    //}
-    //max ++;
-    //避免递归死，上线删除掉end
-    for(var i=0;i<9;i++){
-        for(var j=0;j<9;j++){
-            //console.log('cur('+i+','+j+')');
-            //如果起初没有值;则尝试进行填值。
-            if(S[i][j]==0){
-                //console.log('('+i+','+j+')'+'='+S[i][j]);
-                for(var n=1;n<=9;n++){
-                    S[i][j] = n;
-                    if(allCheck(S,1)){
-                        break;
-                    }else{
-                        //若尝试填到9，数还未成立。则这一轮尝试失败退回
-                        if(n==9){
-                            //回退-到上一次正确的节点start
-                            S=findBackNode(INIT,S,i,j);
-                            lastnode = S;
-                            //回退-到上一次正确的节点end
-                            x = S.x;
-                            y = S.y;
-                            if(S.flag==1){
-                                return core(S.arr,x,y);
-                            }else{
-                                return {flag:0}
-                            }
-                            
-                            //return false;
-                        }else{
-                            continue;
+        format(board) {
+            let that = this;
+            let result = {}
+            result['fillable'] = {};
+            result['value'] = {};
+            board.forEach(function (line, x) {
+                line.forEach(function (value, y) {
+                    if (value == '.') {
+                        if (result['fillable'][x] === undefined) {
+                            result['fillable'][x] = {}
                         }
+                        if (result['fillable'][x][y] === undefined) {
+                            result['fillable'][x][y] = {};
+                        }
+                        result['fillable'][x][y] = {'v': value, 'possible': that.get_possible(x, y, board)}
+                    } else {
+                        if (result['value'][x] === undefined) {
+                            result['value'][x] = {}
+                        }
+                        result['value'][x][y] = value
                     }
-                }
-            }else{
-                //console.log(i+'-'+j+'init');
-            }
+                })
+
+            })
+            console.log(result)
+        }
+
+        get_possible(x, y, board) {
+            let possible = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9};
+            let that = this;
+            board.forEach(function (line, x1) {
+                line.forEach(function (value, y1) {
+                    if (value !== '.' && that.is_neighbor(x - 0, y - 0, x1 - 0, y1 - 0)) {
+                        delete (possible[value - 0])
+                    }
+                })
+
+            })
+            return possible;
+        }
+
+        is_neighbor(x, y, x1, y1) {
+            let minX = parseInt(x / 3) * 3;
+            let minY = parseInt(y / 3) * 3;
+            return x === x1 || y === y1 || (x1 >= minX && x1 <= minX + 2 && y1 >= minY && y1 <= minY + 2);
+        }
+
+
+        solveSudoku() {
+            alert(this.i);
+            return this.x + this.y;
         }
     }
-    return {flag:1,arr:S};
-}
 
-//功能性函数=======================================================================end
+    //board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."], [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"], ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"], [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"], [".", ".", ".", ".", "8", ".", ".", "7", "9"]];
+    board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", "7", "2", "1", "9", "5", "3", "4", "8"], [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"], ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"], [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"], [".", ".", ".", ".", "8", ".", ".", "7", "9"]];
 
+    //console.log(board);
 
+    //board = [["5", "3", ".", ".", "7", ".", ".", ".", "."]];
 
-    //初始化数据
-    var init = "";
-    /*
-    init += "008309100";
-    init += "900060004";
-    init += "007504000";
-    init += "036000540";
-    init += "001000600";
-    init += "042000900";
-    init += "005907300";
-    init += "600010008";
-    init += "004608200";
-    */
+    Solution = new Solution(4, 5);
+    Solution.format(board);
 
-    
-    init += "008309100";
-    init += "900060004";
-    init += "007504800";
-    init += "036000540";
-    init += "001000600";
-    init += "042000970";
-    init += "005907300";
-    init += "600010008";
-    init += "004608200";
-    
+    // Solution.solveSudoku();
+    //let a = Solution.get_possible();
+    //console.log(a);
 
 
-    //组成二维数组
-    var temp = init.split("");
-    var S = [[],[],[],[],[],[],[],[],[]]; //初始值
-    var INIT = [[],[],[],[],[],[],[],[],[]]; //备份初始值
-    for(var i=0;i<81;i++){
-        var x = parseInt(i/9);
-        var y = i%9;
-        S[x][y] = parseInt(temp[i]); 
-        INIT[x][y] = parseInt(temp[i]); 
-    }
-
-    //初始值合法性检测
-    var isInitArrOK = allCheck(S,1);
-
-    if(isInitArrOK){
-        //数独克星===================================================start
-        try
-        { 
-            var re = core(S,0,0);
-            if(re.flag==1){
-                printS(re.arr);
-            }else{
-                console.log('no');
-            }
-        }
-        catch(error)
-        { 
-                console.log('runing'); //异常处理(如循环次数出现太多)
-        }
-        //数独克星====================================================end
-    }else{
-        //printS(INIT);
-        console.log('init false'); //初始化数据有问题
-    }
+    //Solution.x = 2;
+    //Solution.y = 3;
+    // alert( Solution.solveSudoku());
 
 </script>
