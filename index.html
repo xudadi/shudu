@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!--
+github: https://github.com/gongwalker/shudu
+作者: 巩文
+QQ: 309581329
+http://shudu.gwalker.cn
+2020-01-30 11:19
+-->
+<html style="height:100%">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>在线数独求解器</title>
+    <meta name="keywords" content="数独,在线数独,数独游戏,九宫格,琳琅数独" />
+    <meta name="description" content="数独题库,数独游戏题目,数独技巧,数独求助,数独求解器,数独排行榜,数独计算器" />
+    <link href="/favicon.ico" rel="shortcut icon">
+    <link href="/css/style.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="apple-touch-icon" href="/logo.png">
+</head>
+<body style="height:100%;background:#dedede">
+<h3 style="display:none">数独题库,数独游戏题目,数独技巧,数独求助,数独求解器,数独排行榜,数独计算器... 当前位置:数独求解在线 >> 益智游戏 >> 数独游戏 >> 数独求解器 数独游戏...</h3>
+<div style="height:100%">
+    <div id="box" style="width:512px;" >
+        <div style="height:2px;"></div>
+        <h2 class="title">数独求解器</h2>
+        <!--数独界面 start-->
+        <table class="big" >
+            <tr>
+                <td class="block_line"  id="block0">
+                    <table class="block">
+                        <tr>
+                            <td><input id="00" class="InText row0 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="01" class="InText row0 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="02" class="InText row0 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="10" class="InText row1 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="11" class="InText row1 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="12" class="InText row1 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="20" class="InText row2 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="21" class="InText row2 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="22" class="InText row2 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block1">
+                    <table class="block">
+                        <tr>
+                            <td><input id="03" class="InText row0 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="04" class="InText row0 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="05" class="InText row0 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="13" class="InText row1 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="14" class="InText row1 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="15" class="InText row1 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="23" class="InText row2 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="24" class="InText row2 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="25" class="InText row2 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block2">
+                    <table class="block">
+                        <tr>
+                            <td><input id="06" class="InText row0 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="07" class="InText row0 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="08" class="InText row0 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="16" class="InText row1 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="17" class="InText row1 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="18" class="InText row1 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="26" class="InText row2 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="27" class="InText row2 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="28" class="InText row2 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="block_line"  id="block3">
+                    <table class="block">
+                        <tr>
+                            <td><input id="30" class="InText row3 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="31" class="InText row3 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="32" class="InText row3 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="40" class="InText row4 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="41" class="InText row4 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="42" class="InText row4 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="50" class="InText row5 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="51" class="InText row5 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="52" class="InText row5 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block4">
+                    <table class="block">
+                        <tr>
+                            <td><input id="33" class="InText row3 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="34" class="InText row3 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="35" class="InText row3 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="43" class="InText row4 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="44" class="InText row4 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="45" class="InText row4 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="53" class="InText row5 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="54" class="InText row5 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="55" class="InText row5 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block5">
+                    <table class="block">
+                        <tr>
+                            <td><input id="36" class="InText row3 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="37" class="InText row3 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="38" class="InText row3 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="46" class="InText row4 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="47" class="InText row4 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="48" class="InText row4 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="56" class="InText row5 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="57" class="InText row5 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="58" class="InText row5 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="block_line"  id="block6">
+                    <table class="block">
+                        <tr>
+                            <td><input id="60" class="InText row6 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="61" class="InText row6 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="62" class="InText row6 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="70" class="InText row7 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="71" class="InText row7 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="72" class="InText row7 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="80" class="InText row8 col0" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="81" class="InText row8 col1" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="82" class="InText row8 col2" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block7">
+                    <table class="block">
+                        <tr>
+                            <td><input id="63" class="InText row6 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="64" class="InText row6 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="65" class="InText row6 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="73" class="InText row7 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="74" class="InText row7 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="75" class="InText row7 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="83" class="InText row8 col3" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="84" class="InText row8 col4" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="85" class="InText row8 col5" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="block_line"  id="block8">
+                    <table class="block">
+                        <tr>
+                            <td><input id="66" class="InText row6 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="67" class="InText row6 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="68" class="InText row6 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="76" class="InText row7 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="77" class="InText row7 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="78" class="InText row7 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                        <tr>
+                            <td><input id="86" class="InText row8 col6" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="87" class="InText row8 col7" type="number"  oninput="onlyInputNumber(this)"/></td>
+                            <td><input id="88" class="InText row8 col8" type="number"  oninput="onlyInputNumber(this)"/></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!--数独界面 end-->
+        <!--loading start-->
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
+        </div>
+        <!--loading end-->
+        <div style="height:14px;background:#ffffff"></div>
+        <div style="text-align:center;margin:0 auto;height:50px;background: #ffffff">
+            <button id="clear" onclick="clearValue();">清 空</button>
+            <button id="get" style="margin-left:40px;" onclick="getValue();">求 解</button>
+            <button id="back" style="margin-left:40px;display:none" onclick="getBack();">返 回</button>
+        </div>
+        <div style="height:10px;background:#ffffff"></div>
+        <div style="clear:both"></div>
+        <div style="height:10px;background:#ffffff;"></div>
+        <div style="height:5px;background:#ffffff;border-bottom:1px #ccc dashed;"></div>
+        <div style="height:40px;background:#ffffff;"></div>
+
+    </div>
+</div>
+<script src="/js/jquery.calc.min.js"></script>
+
+
+</body>
+</html>
